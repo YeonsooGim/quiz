@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWS AI Practitioner 문제풀이</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">AWS AI Practitioner <span>문제풀이</span></div>
+  <nav class="tabs" id="tabs">
+    <button data-view="quiz" class="on">문제 풀기</button>
+    <button data-view="stats">진행 현황</button>
+    <button data-view="import">문제집 불러오기</button>
+  </nav>
+</header>
+
+<main>
+  <!-- 문제 풀기 -->
+  <section id="view-quiz">
+    <div class="modebar">
+      <label>모드
+        <select id="mode">
+          <option value="all">전체 순서대로</option>
+          <option value="unsolved">아직 안 푼 문제</option>
+          <option value="wrong">틀린 문제 다시 풀기</option>
+        </select>
+      </label>
+      <div class="meter" id="meter" title="푼 문제 / 전체"></div>
+      <button class="ghost" id="btnGrid">문제 목록</button>
+    </div>
+
+    <div id="resume" class="banner" hidden></div>
+    <div id="empty" class="empty" hidden></div>
+
+    <article id="card" class="card" hidden>
+      <div class="qhead">
+        <span class="qno" id="qno"></span>
+        <span class="tag" id="qtag"></span>
+        <span class="tag warn" id="qdup" hidden></span>
+        <button class="ghost small" id="btnReset" title="이 문제 선택 초기화">다시 선택</button>
+      </div>
+      <p class="qtext" id="qtext"></p>
+      <ul class="opts" id="opts"></ul>
+      <div class="actions">
+        <button class="ghost" id="prev">← 이전</button>
+        <button class="primary" id="check">정답 확인</button>
+        <button class="ghost" id="next">다음 →</button>
+      </div>
+      <div id="result" class="result" hidden></div>
+    </article>
+  </section>
+
+  <!-- 진행 현황 -->
+  <section id="view-stats" hidden>
+    <div class="stats" id="statsBox"></div>
+    <h3>문제 목록 (클릭하면 이동)</h3>
+    <div class="legend"><i class="c-ok"></i>정답 <i class="c-ng"></i>오답(복습 필요) <i class="c-un"></i>안 품</div>
+    <div class="grid" id="grid"></div>
+    <div class="row">
+      <button class="ghost" id="btnClear">진행 기록 초기화</button>
+    </div>
+  </section>
+
+  <!-- 불러오기 -->
+  <section id="view-import" hidden>
+    <h2>예상 문제집 불러오기 · 검증</h2>
+    <p class="muted">JSON 문제집 파일을 선택하면 형식·정답·중복을 검사하고, 현재 문제집과 비교해 최신 데이터인지 알려드려요. 검증을 통과한 뒤에만 적용됩니다.</p>
+    <div class="drop" id="drop">
+      <input type="file" id="file" accept=".json,application/json">
+      <p>JSON 파일을 선택하거나 여기에 끌어다 놓으세요</p>
+      <p class="muted small">형식: <code>{ "version", "updatedAt", "questions":[{ "id", "q", "options":[{key,text}], "answer":["A"], "explain":{A:"…"} }] }</code> (또는 questions 배열만)</p>
+    </div>
+    <div id="report" hidden></div>
+    <div class="row">
+      <button class="ghost" id="btnExport">현재 문제집 내보내기(JSON)</button>
+      <button class="ghost" id="btnDefault">기본 문제집으로 되돌리기</button>
+    </div>
+  </section>
+</main>
+
+<div id="drawer" class="drawer" hidden>
+  <div class="sheet">
+    <div class="sheet-h"><b>문제 목록</b><button class="ghost small" id="closeDrawer">닫기</button></div>
+    <div class="grid" id="gridMini"></div>
+  </div>
+</div>
+
+<script src="questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
