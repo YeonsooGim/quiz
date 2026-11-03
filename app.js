@@ -45,7 +45,7 @@
     state.lastId = id; save();
     $("empty").hidden = true; $("card").hidden = false;
     $("qno").textContent = "No." + q.id;
-    $("qtag").textContent = q.select > 1 ? q.select + "개 선택" : "1개 선택";
+    $("qtag").textContent = (q.select > 1 ? q.select + "개 선택" : "1개 선택") + (q.src ? " · " + q.src : "");
     var dup = $("qdup");
     if (q.dupOf && q.dupOf.length) { dup.hidden = false; dup.textContent = "같은 문제: No." + q.dupOf.join(", No."); } else dup.hidden = true;
     $("qtext").textContent = q.q;
@@ -326,7 +326,15 @@
   });
 
   /* ---------- 시작 ---------- */
+  function applyResets() {
+    var ids = (bank && bank.resetIds) || [];
+    if (!ids.length || state.bankVer === bank.version) return;
+    state.history = Object.keys(state.history).reduce(function (m, k) { if (ids.indexOf(+k) < 0) m[k] = state.history[k]; return m; }, {});
+    state.wrong = state.wrong.filter(function (id) { return ids.indexOf(id) < 0; });
+    state.bankVer = bank.version; save();
+  }
   function init() {
+    applyResets();
     $("mode").value = state.mode || "all"; updateMeter();
     var ids = idsForMode($("mode").value);
     var done = Object.keys(state.history).length;
