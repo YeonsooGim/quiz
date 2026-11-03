@@ -331,7 +331,7 @@
     if (!ids.length || state.bankVer === bank.version) return;
     state.history = Object.keys(state.history).reduce(function (m, k) { if (ids.indexOf(+k) < 0) m[k] = state.history[k]; return m; }, {});
     state.wrong = state.wrong.filter(function (id) { return ids.indexOf(id) < 0; });
-    state.bankVer = bank.version; save();
+    state.bankVer = bank.version; state.lastId = null; save();
   }
   function init() {
     applyResets();
